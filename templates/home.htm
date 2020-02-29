@@ -1,0 +1,60 @@
+{% extends "base.htm" %}
+
+{% block style %}
+<style>
+    #uploadImage
+    {
+        display: none;
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+  <h1>Go to <a href="{% url 'result' %}">Result</a></h1>
+  <!-- Switch -->
+  <div class="switch">
+    <label>
+        <span>Canvas</span>
+            <input type="checkbox" class="switch-toggle">
+            <span class="lever"></span>
+        <span>Image</span>
+    </label>
+  </div>
+
+  <div id="canvas">
+    <br>
+    <div class="divider"></div>
+    <div class="section">
+        <h5>Canvas</h5>
+        <p>Place your canvas here</p>
+      </div>
+  </div>
+  <div id="uploadImage">
+    <br>
+    <div class="divider"></div>
+    <div class="row">
+        <form class="col s12" action="{% url 'uploadImage' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+          <div class="row">
+            <div class="input-field col s12">
+              <input type="file" name="image" id="imageFile" class="validate">
+            </div>
+            <div class="input-field col s12">
+              <input type="submit">
+            </div>
+          </div>
+        </form>
+      </div>
+  </div>
+{% endblock content %}
+
+{% block script %}
+<script>
+    $(document).ready(function(){
+        $(".switch-toggle").click(function(){
+            $("#canvas").fadeToggle('fast');
+            $("#uploadImage").fadeToggle('fast');
+          });
+    });
+</script>
+{% endblock script %}
