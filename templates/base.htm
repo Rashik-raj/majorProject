@@ -12,9 +12,11 @@
 </head>
 <body>
     <nav class="row">
-        <div id="banner" class="col s6 offset-s3">
-           <b>Nepali Lipi OCR</b>
+        <div id="banner" class="col s6 offset-s3 left">
+           <b><a href="{% url 'home' %}">Nepali Lipi OCR</a></b>
         </div>
+        {% block nav_extend %}
+        {% endblock nav_extend %}
     </nav>
     <div class="container">
         {% block content %}
