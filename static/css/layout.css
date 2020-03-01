@@ -1,0 +1,14 @@
+#canvas{
+    border:  2px solid black;
+    width: 100%;
+    height: 350px;
+    border-radius: 15px;
+}
+#canvas:hover
+{
+  cursor: crosshair;
+}
+#uploadImage
+{
+    display: none;
+}
