@@ -136,3 +136,6 @@ dmypy.json
 
 .vscode/
 assets/
+image_dataset/
+image_extraction_complete/
+image_folder/
