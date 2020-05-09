@@ -1,0 +1,27 @@
+body {
+  background-image: url('../img/background2.jpg');
+}
+#canvas {
+    background-color: white;
+    width: 100%;
+    height: 450px;
+    border-radius: 15px;
+}
+#canvas:hover {
+  cursor: crosshair;
+}
+#uploadImage {
+    display: none;
+}
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
