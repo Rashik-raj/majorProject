@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 import shortuuid
+import mimetypes
+import os
 
 # Create your views here.
 def data_collection(request):
@@ -19,3 +21,13 @@ def data_collection(request):
         else:
             messages.error(request, 'Please select an image to upload.')
     return render(request, 'data_collection.htm')
+
+def sample_download(request):
+# fill these variables with real values
+    file_path = os.getcwd() + "\\static\\img\\sample.jpg"
+    filename = "sample.jpg"
+    sample_image = open(file_path, 'rb')
+    mime_type = mimetypes.guess_type(file_path)[0]
+    response = HttpResponse(sample_image, content_type=mime_type)
+    response['Content-Disposition'] = "attachment; filename=%s" % filename
+    return response

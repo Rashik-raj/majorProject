@@ -100,6 +100,15 @@
     background: linear-gradient(135deg, #f8b363 0%, #f1343e 100%);
   }
 
+  .container .banner {
+    color: rgb(43, 38, 38);
+  }
+
+  .container a {
+    text-decoration: none;
+    color: cornflowerblue;
+  }
+
   .container .message {
     color: whitesmoke;
     padding: 10px;
