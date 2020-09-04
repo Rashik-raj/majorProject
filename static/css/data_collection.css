@@ -1,0 +1,121 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  html,
+  body {
+    display: grid;
+    height: 100%;
+    place-items: center;
+    text-align: center;
+  }
+  
+  .container {
+    height: 500px;
+    width: 550px;
+  }
+  .container .wrapper {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    border-radius: 10px;
+    background: #fff;
+    border: 2px dashed #c2cdda;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .wrapper.active {
+    border: none;
+  }
+  
+  .wrapper .image {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .wrapper .image img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+  .wrapper .icon {
+    font-size: 100px;
+    color: #f1343e;
+  }
+  .wrapper .text {
+    font-size: 20px;
+    font-weight: 500;
+    color: #5b5b7b;
+  }
+  .wrapper #cancel-btn {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #f8b363;
+    display: none;
+  }
+  .wrapper.active:hover #cancel-btn {
+    display: block;
+  }
+  .wrapper #cancel-btn:hover {
+    color: #f1343e;
+  }
+  .wrapper .file-name {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    color: #fff;
+    padding: 8px 0;
+    font-size: 18px;
+    display: none;
+    background: linear-gradient(135deg, #f8b363 0%, #f1343e 100%);
+  }
+  .wrapper.active:hover .file-name {
+    display: block;
+  }
+  .container #custom-btn {
+    margin-top: 30px;
+    width: 100%;
+    height: 50px;
+    display: block;
+    border: none;
+    border-radius: 25px;
+    outline: none;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: linear-gradient(135deg, #f8b363 0%, #f1343e 100%);
+  }
+
+  .container .message {
+    color: whitesmoke;
+    padding: 10px;
+  }
+
+  .container .success {
+    background-color: green;
+    padding: 10px;
+  }
+
+  .container .error {
+    background-color: salmon;
+    padding: 10px;
+  }
+
+  .container .message ul {
+    list-style: none;
+  }
+  
