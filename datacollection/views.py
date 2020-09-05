@@ -24,7 +24,7 @@ def index(request):
     return render(request, 'data_collection.htm')
 
 def sample_download(request):
-    file_path = os.getcwd() + "\\static\\img\\sample.jpg"
+    file_path = os.getcwd() + "/static/img/sample.jpg"
     filename = "sample.jpg"
     sample_image = open(file_path, 'rb')
     mime_type = mimetypes.guess_type(file_path)[0]
@@ -34,7 +34,7 @@ def sample_download(request):
 
 def data_collection(request):
     main_working_dir = os.getcwd()
-    data_path = main_working_dir + "\\online_data_collection"
+    data_path = main_working_dir + "/online_data_collection"
     image = []
     for (_, _, filenames) in os.walk(data_path):
         image.extend(filenames)
@@ -43,7 +43,7 @@ def data_collection(request):
     return render(request, 'data_collection_list.htm', context=context)
 
 def data_collection_download(request, file_name):
-    file_path = os.getcwd() + "\\online_data_collection\\" + file_name
+    file_path = os.getcwd() + "/online_data_collection/" + file_name
     if os.path.exists(file_path):
         sample_image = open(file_path, 'rb')
         mime_type = mimetypes.guess_type(file_path)[0]
@@ -54,7 +54,7 @@ def data_collection_download(request, file_name):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def data_collection_delete(request, file_name):
-    file_path = os.getcwd() + "\\online_data_collection\\" + file_name
+    file_path = os.getcwd() + "/online_data_collection/" + file_name
     if os.path.exists(file_path):
         os.remove(file_path)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
