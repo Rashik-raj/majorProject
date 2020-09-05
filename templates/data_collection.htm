@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Data Collection</title>
+    <link rel="stylesheet" href="{% static 'css/data_collection.css' %}" />
+    <script src="{% static 'js/kit.fontawesome.js' %}"></script>
+</head>
+
+<body>
+    <div class="container">
+        {% if messages %}
+        <div class="message">
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>        
+        {% endif %}
+        <div class="banner">
+            We are collecting data for educational purpose. Thank you for co-operation.
+            <br>
+            <br>
+            <a href="{% static 'img/sample.jpg' %}" target="_blank">View Sample</a> | <a href="{% url 'download_sample' %}">Download Sample</a>
+        </div>
+        <br>
+        <div class="wrapper">
+            <div class="image">
+                <img src="" alt="">
+            </div>
+            <div class="content">
+                <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                <div class="text">No file chosen, yet!</div>
+            </div>
+            <div id="cancel-btn" class="fas fa-times"></i></div>
+            <div class="file-name">File name here</div>
+        </div>
+        <form action="{% url 'data_collection' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" id="default-btn" name="data_image" hidden>
+            <button onclick="event.preventDefault();defaultBtnActive()" id="custom-btn">Choose a file</button>
+            <input type="submit" id="custom-btn" />
+        </form>
+    </div>
+
+    <script>
+        const wrapper = document.querySelector(".wrapper");
+        const fileName = document.querySelector(".file-name");
+        const cancelBtn = document.querySelector("#cancel-btn");
+        const defaultBtn = document.querySelector("#default-btn");
+        const customBtn = document.querySelector("#custom-btn");
+        const img = document.querySelector("img");
+        let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+        function defaultBtnActive() {
+            defaultBtn.click();
+        }
+        defaultBtn.addEventListener("change", function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function () {
+                    const result = reader.result;
+                    img.src = result;
+                    wrapper.classList.add("active");
+                }
+                cancelBtn.addEventListener("click", function () {
+                    img.src = "";
+                    wrapper.classList.remove("active");
+                });
+                reader.readAsDataURL(file);
+            }
+            if (this.value) {
+                let valueStore = this.value.match(regExp);
+                fileName.textContent = valueStore;
+            }
+        });
+    </script>
+</body>
+
+</html>
