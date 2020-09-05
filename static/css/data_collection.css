@@ -14,7 +14,7 @@
   }
   
   .container {
-    height: 500px;
+    height: 600px;
     width: 550px;
   }
   .container .wrapper {
@@ -126,5 +126,13 @@
 
   .container .message ul {
     list-style: none;
+  }
+
+  .wrapper table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  table, td {
+    border: 1px solid black;
   }
   
