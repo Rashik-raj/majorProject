@@ -15,7 +15,10 @@
         <div class="message">
             <ul class="messages">
                 {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                <li class="{{ message.tags }}">
+                    {% if message.tags == 'success' %}<i class="fas fa-check-circle"></i> {% endif %}
+                    {% if message.tags == 'error' %}<i class="fas fa-exclamation-triangle"></i> {% endif %}
+                    {{ message }}</li>
                 {% endfor %}
             </ul>
         </div>        
@@ -25,6 +28,9 @@
             <br>
             <br>
             <a href="{% static 'img/sample.jpg' %}" target="_blank">View Sample</a> | <a href="{% url 'download_sample' %}">Download Sample</a>
+            <div class="info">
+                <i class="fas fa-exclamation"></i> Please use A4 paper or any other white sheet.
+            </div>
         </div>
         <br>
         <div class="wrapper">

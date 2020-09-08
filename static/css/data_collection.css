@@ -14,7 +14,7 @@
   }
   
   .container {
-    height: 600px;
+    height: 650px;
     width: 550px;
   }
   .container .wrapper {
@@ -122,6 +122,13 @@
   .container .error {
     background-color: salmon;
     padding: 10px;
+  }
+
+  .container .info {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: Aquamarine;
+    font-weight: bold;
   }
 
   .container .message ul {
