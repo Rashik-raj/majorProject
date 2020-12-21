@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Data Collection</title>
+    <link rel="stylesheet" href="{% static 'css/data_collection.css' %}" />
+    <script src="{% static 'js/kit.fontawesome.js' %}"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h3>Collected Data</h3>
+        <div class="wrapper">
+            <table>
+                <tr>
+                    <td>S.N</td>
+                    <td>Name</td>
+                    <td>Action</td>
+                </tr>
+                {% for image_name in image %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% get_media_prefix %}{{ image_name }}" target="_blank">{{ image_name }}</a></td>
+                        <td>
+                            <a href="{% url 'data_collection_download' image_name %}"><i class="fas fa-download"></i></a> | 
+                            <a href="{% url 'data_collection_delete' image_name %}"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
