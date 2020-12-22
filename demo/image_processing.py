@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from skimage.filters import threshold_sauvola
 from skimage import img_as_ubyte
+import shortuuid
 import os
 
 # #Setting the working directory manually
@@ -24,7 +25,7 @@ def image_preprocessing():
         #extract garisakepaxi original image halne folder
         extraction_complete_folder = 'image_extraction_complete'
         #changing the working directory to image vayeko directory
-        os.chdir(os.path.join(working_directory, image_dir_folder))
+        os.chdir(os.path.join(working_directory, 'online_data_collection', image_dir_folder))
         """
         image_collection : read gareko image halna lai
         image_names : images haru ko name halna lai which will be used later
@@ -35,9 +36,9 @@ def image_preprocessing():
                 image_names.append(each_image)
                 image_collection.append(cv2.imread(each_image))
         """
-        counter : image ko name halna lai use garne
+        extracted_image_name : image ko name return garna ko lai
         """
-        image_name_counter = 0
+        extracted_image_name = []
         for i, each_image in enumerate(image_collection):                
                 resized_image = cv2.resize(each_image, (800, 800))                
                 #image bata noise remove garna
@@ -73,16 +74,18 @@ def image_preprocessing():
                         #cv2.imshow("dim", roi)
                         #cv2.waitKey()                        
                         resized_image = cv2.resize(roi, (28, 28))                        
-                        #ataset folder ma image halna lai
-                        os.chdir(os.path.join(working_directory, dataset_folder))
-                        cv2.imwrite(str(image_name_counter) + '.jpg', resized_image)
-                        image_name_counter += 1        
+                        #dataset folder ma image halna lai
+                        os.chdir(os.path.join(working_directory, 'online_data_collection', dataset_folder))
+                        img_name = str(shortuuid.uuid()) + '.jpg'
+                        cv2.imwrite(img_name, resized_image)
+                        extracted_image_name.append('image_dataset/' + img_name)    
                 #sabai extract vaisake paxi original image lai chuttai folder ma halna
-                os.chdir(os.path.join(working_directory, extraction_complete_folder))
+                os.chdir(os.path.join(working_directory, 'online_data_collection', extraction_complete_folder))
                 cv2.imwrite(str(image_names[i]), each_image)
                 #sabai kaam sakesi original image lai folder bata delete garne
-                os.chdir(os.path.join(working_directory, image_dir_folder))
+                os.chdir(os.path.join(working_directory, 'online_data_collection', image_dir_folder))
                 for each_file in os.listdir():
                         os.remove(each_file)
                 cv2.destroyAllWindows()
         os.chdir(working_directory)
+        return extracted_image_name
