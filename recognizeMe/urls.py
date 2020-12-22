@@ -9,7 +9,6 @@ urlpatterns = [
     path('', include('home.urls')),
     path('datacollection/', include('datacollection.urls')),
     path('demo/', include('demo.urls')),
-    path('result/',include('result.urls')),
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT,}),
     re_path(r'^online_data_collection/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,}),
 ]
