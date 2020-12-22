@@ -10,7 +10,7 @@ body {
 #canvas:hover {
   cursor: crosshair;
 }
-#uploadImage {
+#canvasDiv {
     display: none;
 }
 .upload-btn-wrapper {
