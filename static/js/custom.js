@@ -51,6 +51,7 @@ window.addEventListener('load', () =>{
     var button = document.querySelector('#clear')
     button.addEventListener('click', function(e){
         ctx.clearRect(0, 0 , canvas.width, canvas.height);
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
     }, false)
 })
 
