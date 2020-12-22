@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'datacollection',
     'demo',
     'home',
-    'result',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

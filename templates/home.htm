@@ -35,14 +35,14 @@
     <br>
     <div class="divider"></div>
     <div class="row">
-      <form class="col s12" action="{% url 'uploadImage' %}" method="post" enctype="multipart/form-data">
+      <form class="col s12" action="{% url 'imageClassifier' %}" method="post" enctype="multipart/form-data">
       {% csrf_token %}
         <div class="row">
           <h3 class="center-align blue-text text-lighten-1"><b>Upload Image</b></h3>
           <div class="input-field col s12 center-align">
             <div class="upload-btn-wrapper">
               <button class="btn blue lighten-3">Upload an image</button>
-              <input type="file" name="image" />
+              <input type="file" name="image"/>
             </div>
           </div>
           <div class="input-field col s12 center-align">
