@@ -6,8 +6,30 @@ from keras.preprocessing import image
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
+from skimage.filters import threshold_sauvola
+from skimage import img_as_ubyte
 from tensorflow.keras.models import load_model
 import os
+import cv2
+import shortuuid
+
+def preprocessImage(img_path):
+    # preprocess and load input image
+    img = cv2.imread(img_path)
+    resized_image = cv2.resize(img, (180, 180))                
+    #image bata noise remove garna
+    denoised_image = cv2.fastNlMeansDenoisingColored(resized_image)                
+    gray_image = cv2.cvtColor(denoised_image, cv2.COLOR_BGR2GRAY)                             
+    #Sauvola's thresholding
+    thresh_sauvola = threshold_sauvola(gray_image, window_size = 17)
+    binary_sauvola = gray_image > thresh_sauvola
+    binary_sauvola = img_as_ubyte(binary_sauvola)
+    image_copy= binary_sauvola.copy() 
+    smooth_image_mb = cv2.medianBlur(image_copy, 3)
+    resized_image = cv2.resize(smooth_image_mb, (250, 250))
+    resized_img_name = str(shortuuid.uuid()) + '.jpg'
+    cv2.imwrite(resized_img_name, resized_image)
+    return resized_img_name
 
 # Create your views here.
 def index(request):
@@ -23,11 +45,11 @@ def imageClassifier(request):
         
         # predicting images
         path = os.getcwd() + data.image.url
+        path = preprocessImage(path)
         img = image.load_img(path, target_size=(180, 180))
+        os.remove(path)
         x = image.img_to_array(img)
         x = np.expand_dims(x, axis=0)
-
-        img = mpimg.imread(path)
         
         images = np.vstack([x])
         classes = model.predict(images, batch_size=10)
@@ -45,6 +67,7 @@ def imageClassifier(request):
         upload_img_name = upload_img_path.split('/')[-1]
         graph_name = upload_img_name.split('.')[0] + '_graph.png'
         os.chdir(os.path.join(working_directory, 'online_data_collection', 'chart'))
+        plt.clf()
         barplot = plt.bar(x_axis, y_axis)
         plt.suptitle('prediction value vs prediction')
         for bar in barplot:
