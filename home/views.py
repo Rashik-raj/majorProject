@@ -16,6 +16,7 @@ def index(request):
 def imageClassifier(request):
     form = ImageForm(request.POST, request.FILES)
     if form.is_valid():
+        working_directory = os.getcwd()
         data = form.save()
         # data prediction
         model = load_model(os.getcwd() + '/home/cnn_mode.h5')
@@ -27,7 +28,6 @@ def imageClassifier(request):
         x = np.expand_dims(x, axis=0)
 
         img = mpimg.imread(path)
-        plt.imshow(img)
         
         images = np.vstack([x])
         classes = model.predict(images, batch_size=10)
@@ -38,11 +38,29 @@ def imageClassifier(request):
             predictions.append([count, val])
         # print(np.max(classes))
         # print(np.argmax(classes))
+
+        x_axis = [x[0] for x in predictions]
+        y_axis = [x[1]*100 for x in predictions]
+        upload_img_path = data.image.url
+        upload_img_name = upload_img_path.split('/')[-1]
+        graph_name = upload_img_name.split('.')[0] + '_graph.png'
+        os.chdir(os.path.join(working_directory, 'online_data_collection', 'chart'))
+        barplot = plt.bar(x_axis, y_axis)
+        plt.suptitle('prediction value vs prediction')
+        for bar in barplot:
+            yval = bar.get_height()
+            plt.text(bar.get_x() + bar.get_width()/2.0, yval, int(yval), va='bottom')
+        plt.xlabel('Prediction value')
+        plt.ylabel('Prediction (in %)')
+        plt.xticks(range(len(x_axis)), x_axis, size='small')
+        plt.savefig(graph_name, dpi=400)
         context = {
             'input_data': data,
             'predictions': predictions,
-            'output_img': output_img
+            'output_img': output_img,
+            'chart': 'chart/' + graph_name
         }
+        os.chdir(working_directory)
         return render(request,'result.htm', context=context)
     else:
         print("form is not valid")
