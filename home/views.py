@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from home.form import ImageForm
 from home.models import Image
 from keras.preprocessing import image
@@ -41,7 +41,7 @@ def imageClassifier(request):
         working_directory = os.getcwd()
         data = form.save()
         # data prediction
-        model = load_model(os.getcwd() + '/home/cnn_mode.h5')
+        model = load_model(os.getcwd() + '/home/cnn_model.h5')
         
         # predicting images
         path = os.getcwd() + data.image.url
@@ -60,7 +60,6 @@ def imageClassifier(request):
             predictions.append([count, val])
         # print(np.max(classes))
         # print(np.argmax(classes))
-
         x_axis = [x[0] for x in predictions]
         y_axis = [x[1]*100 for x in predictions]
         upload_img_path = data.image.url
@@ -86,5 +85,5 @@ def imageClassifier(request):
         os.chdir(working_directory)
         return render(request,'result.htm', context=context)
     else:
-        print("form is not valid")
-    return HttpResponse('''hello <a href="/">home</a>''')
+        messages.warning(request, 'Please upload valid image file!')
+        return redirect('home')
