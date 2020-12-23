@@ -22,7 +22,17 @@
 {% block content %}
   <div id="uploadImage">
     <br>
-    <div class="divider"></div>
+    <div class="message red-text text-darken-3 center-align">
+      {% if messages %}
+          <ul class="messages">
+          {% for message in messages %}
+              <div class="card-panel green lighten-2">
+                <h4>{{message}}</h4>
+              </div>
+          {% endfor %}
+          </ul>
+      {% endif %}
+    </div>
     <div class="row">
       <form class="col s12" action="{% url 'imageClassifier' %}" method="post" enctype="multipart/form-data">
       {% csrf_token %}
