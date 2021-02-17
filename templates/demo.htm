@@ -2,48 +2,50 @@
 {% load static %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/layout.css' %}"/>
+<link rel="stylesheet" href="{% static 'css/layout.css' %}" />
 {% endblock style %}
 
 {% block nav_extend %}
-  <!-- Switch -->
-  <div class="switch left">
-    <label>
-      <span class="white-text text-darken-3" style="margin-right: 15px;"><a href="{% url 'home' %}"><b>Home</b></a></span>
-      <span class="white-text text-darken-3" style="margin-right: 15px;"><a href="{% url 'data_collection' %}" target="_blank"><b>Data Collection</b></a></span>
-    </label>
-  </div>  
+<!-- Switch -->
+<div class="switch left">
+  <label>
+    <span class="white-text text-darken-3" style="margin-right: 15px;"><a href="{% url 'home' %}"><b>Home</b></a></span>
+    <span class="white-text text-darken-3" style="margin-right: 15px;"><a href="{% url 'data_collection' %}"
+        target="_blank"><b>Data Collection</b></a></span>
+  </label>
+</div>
 {% endblock nav_extend %}
 
 {% block content %}
-  <div class="red-text text-accent-3">
-      <div class="message blue-text text-accent-3 center-align">
-        {% if messages %}
-            <ul class="messages">
-            {% for message in messages %}
-                <div class="card-panel green lighten-2">
-                <h4>{{message}}</h4>
-                </div>
-            {% endfor %}
-            </ul>
-        {% endif %}
+<div class="red-text text-accent-3">
+  <div class="message blue-text text-accent-3 center-align">
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <div class="card-panel green lighten-2">
+        <h4>{{message}}</h4>
       </div>
-      <h3 class="center-align"><b>Demo</b></h3>
-      <div class="row">
-        <div class="col s8 offset-s2 center-align">  
-          <a href="{% url 'demo-in-action' %}"><button id='demo' class="btn waves-effect waves-light green lighten-2">Demo</button></a>
-        </div>
-      </div>
-      {% if images %}
-        <div class="row">
-          {% for image in images %}
-          <div class="col s2 center">
-            <img class="responsive-img" src="{% get_media_prefix %}{{ image }}"/>
-          </div>
-          {% endfor %}
-        </div>
-      {% endif %}
+      {% endfor %}
+    </ul>
+    {% endif %}
   </div>
+  <h3 class="center-align upload-image"><b>Demo</b></h3>
+  <div class="row">
+    <div class="col s8 offset-s2 center-align">
+      <a href="{% url 'demo-in-action' %}"><button id='demo'
+          class="btn waves-effect waves-light green lighten-2">Demo</button></a>
+    </div>
+  </div>
+  {% if images %}
+  <div class="row">
+    {% for image in images %}
+    <div class="col s2 center">
+      <img class="responsive-img" src="{% get_media_prefix %}{{ image }}" />
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
 {% endblock content %}
 
 {% block script %}

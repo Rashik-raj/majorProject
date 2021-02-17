@@ -1,0 +1,34 @@
+nav{
+    background-color: #3CA55C !important
+}
+
+.upload-image{
+    color: #212121;
+}
+
+.image-text{
+    columns: #757575;
+}
+body{
+background: #3CA55C !important;
+/* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #B5AC49, #3CA55C) !important;
+/* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #B5AC49, #3CA55C) !important;
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+#btn-alignment{
+    text-align: center;
+}
+
+.zoom{
+    transition: trasnform .2s;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.zoom:hover {
+    transform: scale(2);
+    /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
