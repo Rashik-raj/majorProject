@@ -1,5 +1,5 @@
 body {
-  background-image: url('../img/background2.jpg');
+   background-image: none !important;
 }
 #canvas {
     background-color: white;
