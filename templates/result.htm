@@ -5,8 +5,51 @@
   
 {% endblock style %}
 
+{% block nav_extend %}
+  <!-- Switch -->
+  <div class="switch left">
+    <label>
+      <span class="white-text text-darken-3" style="margin-right: 15px;"><a href="{% url 'home' %}"><b>Home</b></a></span>
+    </label>
+  </div>  
+{% endblock nav_extend %}
+
 {% block content %}
-  <h1>Go to <a href="{% url 'home' %}">Home</a></h1>
+  <div class="row blue lighten-5">
+    <div class="col s6 center">
+      <h2 class="red-text text-lighten-2">Input Image</h2>
+      <img class="circle responsive-img" src="{{ input_data.image.url }}" />
+    </div>
+    <div class="col s6 center">
+      <h2 class="red-text text-lighten-2">Prediction</h2>
+      <img class="circle responsive-img" src="{% get_media_prefix %}{{ output_img }}"/>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col s6 center">
+      <img class="responsive-img" src="{% get_media_prefix %}{{ chart }}"/>
+    </div>
+    <div class="col s6 center">
+      <table class="striped centered highlight responsive-table">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Prediction</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for prediction in predictions %}
+          <tr>
+            {% for data in prediction %}
+            <td>{{data}}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 {% endblock content %}
 
 {% block script %}

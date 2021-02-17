@@ -139,3 +139,5 @@ assets/
 image_dataset/
 image_extraction_complete/
 image_folder/
+online_data_collection/
+migrations/

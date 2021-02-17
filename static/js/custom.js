@@ -1,6 +1,8 @@
 window.addEventListener('load', () =>{
     var canvas = document.querySelector("#canvas");
     const ctx =  canvas.getContext("2d");
+    ctx.fillStyle = "#fafef1";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     var drawing = false;
     function startPosition(){
@@ -20,8 +22,6 @@ window.addEventListener('load', () =>{
         posx = pos.x;
         posy = pos.y;
         ctx.lineWidth = 2;
-        ctx.fillStyle = "#000000";
-        // ctx.fillRect(posx, posy, 4, 4);
         ctx.lineTo(posx, posy)
         ctx.stroke()
     }
@@ -44,13 +44,14 @@ window.addEventListener('load', () =>{
         const confirmation = confirm('Do you want to save?');
         if(confirmation == true){
             save.href = canvas.toDataURL();
-            save.download = 'mypaint.jpeg';
+            save.download = 'mypaint.png';
         }
     }, false)
 
     var button = document.querySelector('#clear')
     button.addEventListener('click', function(e){
         ctx.clearRect(0, 0 , canvas.width, canvas.height);
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
     }, false)
 })
 

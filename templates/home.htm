@@ -10,38 +10,38 @@
   <div class="switch left">
     <label>
       <span class="white-text text-darken-3" style="margin-right: 15px;"><a href="{% url 'demo' %}"><b>Demo</b></a></span>
-        <span class="white-text text-darken-3"><b>Canvas</b></span>
-            <input type="checkbox" class="switch-toggle">
-            <span class="lever"></span>
-        <span class="white-text text-darken-3"><b>Image</b></span>
+      <span class="white-text text-darken-3" style="margin-right: 15px;"><a href="{% url 'data_collection' %}" target="_blank"><b>Data Collection</b></a></span>
+      <span class="white-text text-darken-3"><b>Image</b></span>
+          <input type="checkbox" class="switch-toggle">
+          <span class="lever"></span>
+      <span class="white-text text-darken-3"><b>Canvas</b></span>
     </label>
   </div>  
 {% endblock nav_extend %}
 
 {% block content %}
-  <div id="canvasDiv" class="red-text text-accent-3">
-    <h3 class="center-align"><b>Canvas</b></h3>
-    <div class="row">
-      <div class="col s8 offset-s2">
-        <canvas id="canvas"></canvas>
-        <br>        
-        <button id='clear' class="btn waves-effect waves-light red lighten-2">Clear</button>
-        <button id='save_button' class="btn waves-effect waves-light"><a id='save' class="white-text">Save</a></button>
-      </div>
-    </div>
-  </div>
   <div id="uploadImage">
     <br>
-    <div class="divider"></div>
+    <div class="message red-text text-darken-3 center-align">
+      {% if messages %}
+          <ul class="messages">
+          {% for message in messages %}
+              <div class="card-panel green lighten-2">
+                <h4>{{message}}</h4>
+              </div>
+          {% endfor %}
+          </ul>
+      {% endif %}
+    </div>
     <div class="row">
-      <form class="col s12" action="{% url 'uploadImage' %}" method="post" enctype="multipart/form-data">
+      <form class="col s12" action="{% url 'imageClassifier' %}" method="post" enctype="multipart/form-data">
       {% csrf_token %}
         <div class="row">
-          <h3 class="center-align blue-text text-lighten-1"><b>Upload Image</b></h3>
+          <h2 class="center-align red-text text-accent-3"><b>Upload Image</b></h2>
           <div class="input-field col s12 center-align">
             <div class="upload-btn-wrapper">
               <button class="btn blue lighten-3">Upload an image</button>
-              <input type="file" name="image" />
+              <input type="file" name="image"/>
             </div>
           </div>
           <div class="input-field col s12 center-align">
@@ -49,6 +49,17 @@
           </div>
         </div>
       </form>
+    </div>
+  </div>
+  <div id="canvasDiv" class="red-text text-accent-3">
+    <h2 class="center-align"><b>Canvas</b></h2>
+    <div class="row">
+      <div class="col s8 offset-s2">
+        <canvas id="canvas"></canvas>
+        <br>        
+        <button id='clear' class="btn waves-effect waves-light red lighten-2">Clear</button>
+        <button id='save_button' class="btn waves-effect waves-light"><a id='save' class="white-text">Save</a></button>
+      </div>
     </div>
   </div>
 {% endblock content %}

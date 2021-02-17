@@ -10,6 +10,7 @@
   <div class="switch left">
     <label>
       <span class="white-text text-darken-3" style="margin-right: 15px;"><a href="{% url 'home' %}"><b>Home</b></a></span>
+      <span class="white-text text-darken-3" style="margin-right: 15px;"><a href="{% url 'data_collection' %}" target="_blank"><b>Data Collection</b></a></span>
     </label>
   </div>  
 {% endblock nav_extend %}
@@ -21,7 +22,7 @@
             <ul class="messages">
             {% for message in messages %}
                 <div class="card-panel green lighten-2">
-                <b>{{message}}</b>
+                <h4>{{message}}</h4>
                 </div>
             {% endfor %}
             </ul>
@@ -33,6 +34,15 @@
           <a href="{% url 'demo-in-action' %}"><button id='demo' class="btn waves-effect waves-light green lighten-2">Demo</button></a>
         </div>
       </div>
+      {% if images %}
+        <div class="row">
+          {% for image in images %}
+          <div class="col s2 center">
+            <img class="responsive-img" src="{% get_media_prefix %}{{ image }}"/>
+          </div>
+          {% endfor %}
+        </div>
+      {% endif %}
   </div>
 {% endblock content %}
 
