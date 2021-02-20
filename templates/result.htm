@@ -21,8 +21,8 @@
     <img class="responsive-img" src="{{ input_data.image.url }}" />
   </div>
   <div class="col s6 center">
-    <h2 class=" upload-image">Prediction</h2>
-    <img class=" responsive-img" src="{% get_media_prefix %}{{ output_img }}" height="150" width="150" />
+    <h2 class="upload-image">Prediction</h2>
+    <img class="responsive-img" src="{% get_media_prefix %}{{ output_img }}" height="150" width="150" />
   </div>
 </div>
 <hr>
@@ -51,21 +51,13 @@
   </div>
 </div>
 
-<div>
-  {% for name in layers %}
-
-  <img class="responsive-img zoom" src="{% get_media_prefix %}{{name}}" />
+<div style="padding-bottom: 150px;">
+  {% for layer_name, name in layers %}
+    <h4 class="center">{{ layer_name }}</h4>
+    <img class="responsive-img zoom" src="{% get_media_prefix %}{{name}}" />
   {% endfor %}
-
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
 </div>
 {% endblock content %}
-
-
 
 {% block script %}
 

@@ -40,10 +40,11 @@ def preprocessImage(img_path):
 
 # Create your views here.
 
-
 def index(request):
     return render(request, 'home.htm')
 
+def trainGraph(request):
+    return render(request, 'train_graph.htm')
 
 def imageClassifier(request):
     form = ImageForm(request.POST, request.FILES)
@@ -69,11 +70,9 @@ def imageClassifier(request):
             str(np.argmax(classes)) + ".jpg"
         predictions = []
         for count, val in enumerate(classes[0]):
-            predictions.append([count, np.round(val, 5)])
-        # print(np.max(classes))
-        # print(np.argmax(classes))
+            predictions.append([count, np.round(val, 5) * 100])
         x_axis = [x[0] for x in predictions]
-        y_axis = [x[1]*100 for x in predictions]
+        y_axis = [x[1] for x in predictions]
         upload_img_path = data.image.url
         upload_img_name = upload_img_path.split('/')[-1]
         graph_name = upload_img_name.split('.')[0] + '_graph.png'
@@ -90,6 +89,7 @@ def imageClassifier(request):
         plt.ylabel('Probability values (in %)')
         plt.xticks(range(len(x_axis)), x_axis, size='small')
         plt.savefig(graph_name, dpi=400)
+        plt.close(fig='all')
 
         # Creating image for each layer
 
@@ -130,13 +130,14 @@ def imageClassifier(request):
                     display_grid[:, i * size: (i + 1) * size] = x
                 # Display the grid
                 scale = 50. / n_features
+                plt.clf()
                 plt.figure(figsize=(scale * n_features, scale))
                 plt.title(layer_name)
                 plt.grid(False)
                 plt.imshow(display_grid, aspect='auto', cmap='viridis')
                 plt.savefig(layer_name + ".jpg")
-                layer_name_list.append('/layer_image/' +
-                                       layer_name + ".jpg")
+                plt.close(fig='all')
+                layer_name_list.append([layer_name, '/layer_image/' + layer_name + ".jpg"])
 
         context = {
             'input_data': data,
@@ -150,3 +151,4 @@ def imageClassifier(request):
         return render(request, 'result.htm', context=context)
     else:
         messages.warning(request, 'Please upload valid image file!')
+        return redirect('/')

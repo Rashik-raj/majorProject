@@ -54,12 +54,3 @@ window.addEventListener('load', () =>{
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }, false)
 })
-
-
-
-$(document).ready(function(){
-    $(".switch-toggle").click(function(){
-        $("#canvasDiv").fadeToggle('fast');
-        $("#uploadImage").fadeToggle('fast');
-      });
-});
