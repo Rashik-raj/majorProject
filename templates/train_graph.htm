@@ -1,0 +1,39 @@
+{% extends "base.htm" %}
+{% load static %}
+
+{% block style %}
+
+{% endblock style %}
+
+{% block nav_extend %}
+<!-- Switch -->
+<div class="switch left">
+  <label>
+    <span class="white-text text-darken-3" style="margin-right: 15px;"><a href="{% url 'home' %}"><b>Home</b></a></span>
+  </label>
+</div>
+{% endblock nav_extend %}
+
+{% block content %}
+<div class="row white">
+  <div class="col s6 center">
+    <h2 class="upload-image">Accuracy</h2>
+    <img class="responsive-img" src="{% get_media_prefix %}train_graph/accuracy.png" />
+  </div>
+  <div class="col s6 center">
+    <h2 class="upload-image">Loss</h2>
+    <img class="responsive-img" src="{% get_media_prefix %}train_graph/loss.png"/>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col s12 center">
+    <h2 class="upload-image">Model Summary</h2>
+    <img class="responsive-img" src="{% get_media_prefix %}train_graph/model_summary.jpg" />
+  </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+
+{% endblock script %}

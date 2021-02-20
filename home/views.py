@@ -40,10 +40,11 @@ def preprocessImage(img_path):
 
 # Create your views here.
 
-
 def index(request):
     return render(request, 'home.htm')
 
+def trainGraph(request):
+    return render(request, 'train_graph.htm')
 
 def imageClassifier(request):
     form = ImageForm(request.POST, request.FILES)
