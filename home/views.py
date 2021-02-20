@@ -51,7 +51,7 @@ def imageClassifier(request):
         working_directory = os.getcwd()
         data = form.save()
         # data prediction
-        model = load_model(os.getcwd() + '/home/cnn_model.h5')
+        model = load_model(working_directory + '/home/cnn_model.h5')
 
         # predicting images
         path = os.getcwd() + data.image.url
