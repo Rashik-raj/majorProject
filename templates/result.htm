@@ -51,21 +51,13 @@
   </div>
 </div>
 
-<div>
-  {% for name in layers %}
-
-  <img class="responsive-img zoom" src="{% get_media_prefix %}{{name}}" />
+<div style="padding-bottom: 150px;">
+  {% for layer_name, name in layers %}
+    <h4 class="center">{{ layer_name }}</h4>
+    <img class="responsive-img zoom" src="{% get_media_prefix %}{{name}}" />
   {% endfor %}
-
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
 </div>
 {% endblock content %}
-
-
 
 {% block script %}
 

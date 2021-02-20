@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='home'),
-    path('imageClassifier/', views.imageClassifier, name='imageClassifier'),
+    path('image_classifier/', views.imageClassifier, name='image_classifier'),
 ]

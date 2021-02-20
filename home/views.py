@@ -136,8 +136,7 @@ def imageClassifier(request):
                 plt.imshow(display_grid, aspect='auto', cmap='viridis')
                 plt.savefig(layer_name + ".jpg")
                 plt.close(fig='all')
-                layer_name_list.append('/layer_image/' +
-                                       layer_name + ".jpg")
+                layer_name_list.append([layer_name, '/layer_image/' + layer_name + ".jpg"])
 
         context = {
             'input_data': data,
@@ -151,3 +150,4 @@ def imageClassifier(request):
         return render(request, 'result.htm', context=context)
     else:
         messages.warning(request, 'Please upload valid image file!')
+        return redirect('/')
