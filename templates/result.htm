@@ -22,7 +22,7 @@
   </div>
   <div class="col s6 center">
     <h2 class="upload-image">Prediction</h2>
-    <img class="responsive-img" src="{% get_media_prefix %}{{ output_img }}" height="150" width="150" />
+    <img class="responsive-img" src="{% get_media_prefix %}{{ output_img }}" height="200" width="200"/>
   </div>
 </div>
 <hr>
@@ -50,7 +50,27 @@
     </table>
   </div>
 </div>
-
+<hr>
+<div class="row">
+  <div class="col s4 offset-s4 center" style="height:fit-content;">
+    <h3>Preprocess Images</h3>
+    <div class="carousel carousel-slider center">
+      <div class="carousel-fixed-item center">
+      </div>
+      {% for title, img in preprocess_imgs %}
+        <div class="carousel-item white black-text">
+          <div>
+            <h4>{{ title }}</h4>
+          </div>
+          <div>
+            <img class="responsive-img" src="{% get_media_prefix %}image_processing/{{img}}">
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<hr>
 <div style="padding-bottom: 150px;">
   {% for layer_name, name in layers %}
     <h4 class="center">{{ layer_name }}</h4>
@@ -60,5 +80,5 @@
 {% endblock content %}
 
 {% block script %}
-
+<script src="{% static 'js/custom.js' %}"></script>
 {% endblock script %}

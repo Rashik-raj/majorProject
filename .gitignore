@@ -141,6 +141,7 @@ online_data_collection/classification_input/
 online_data_collection/image_dataset/
 online_data_collection/image_extraction_complete/
 online_data_collection/image_folder/
+online_data_collection/image_processing/
 online_data_collection/layer_image/
 online_data_collection/*.jpg
 online_data_collection/*.jpeg

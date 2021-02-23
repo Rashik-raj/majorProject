@@ -17,26 +17,40 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 plt.style.use('seaborn')
 
+def imgName():
+    return str(shortuuid.uuid()) + '.jpg'
 
 def preprocessImage(img_path):
     # preprocess and load input image
     img = cv2.imread(img_path)
-
-    resized_image = cv2.resize(img, (180, 180))
-    # image bata noise remove garna
-    denoised_image = cv2.fastNlMeansDenoisingColored(resized_image)
-    gray_image = cv2.cvtColor(denoised_image, cv2.COLOR_BGR2GRAY)
-    # Sauvola's thresholding
-    thresh_sauvola = threshold_sauvola(gray_image, window_size=17)
-    binary_sauvola = gray_image > thresh_sauvola
+    resized_image = cv2.resize(img, (250, 250))
+    # removing noise form colored images
+    denoised_image = cv2.fastNlMeansDenoisingColored(resized_image, None, 10, 10, 7, 21)
+    denoised_img_name = imgName()
+    cv2.imwrite("online_data_collection/image_processing/" + denoised_img_name, denoised_image)
+    # Since denoiseing converts BGR image to CELAB, converting CELAB to BGR
+    bgr_image = cv2.cvtColor(denoised_image, cv2.COLOR_Lab2BGR)
+    bgr_img_name = imgName()
+    cv2.imwrite("online_data_collection/image_processing/" + bgr_img_name, bgr_image)
+    # Converion of BGR to Grayscale
+    gray_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2GRAY)
+    gray_img_name = imgName()
+    cv2.imwrite("online_data_collection/image_processing/" + gray_img_name, gray_image)
+    # Binarization
+    thres_sauvola = threshold_sauvola(gray_image, window_size=17)
+    binary_sauvola = gray_image > thres_sauvola
     binary_sauvola = img_as_ubyte(binary_sauvola)
-    image_copy = binary_sauvola.copy()
+    binary_img_name = imgName()
+    cv2.imwrite("online_data_collection/image_processing/" + binary_img_name, binary_sauvola)
+    # Smoothing image
+    smooth_image = cv2.medianBlur(binary_sauvola, 3)
+    smooth_img_name = imgName()
+    cv2.imwrite("online_data_collection/image_processing/" + smooth_img_name, smooth_image)
 
-    smooth_image_mb = cv2.medianBlur(image_copy, 3)
-    resized_image = cv2.resize(smooth_image_mb, (250, 250))
-    resized_img_name = str(shortuuid.uuid()) + '.jpg'
+    resized_image = cv2.resize(smooth_image, (250, 250))
+    resized_img_name = imgName()
     cv2.imwrite(resized_img_name, resized_image)
-    return resized_img_name
+    return resized_img_name, denoised_img_name, bgr_img_name, gray_img_name, binary_img_name, smooth_img_name
 
 # Create your views here.
 
@@ -56,7 +70,7 @@ def imageClassifier(request):
 
         # predicting images
         path = os.getcwd() + data.image.url
-        path = preprocessImage(path)
+        path, denoised_img_name, bgr_img_name, gray_img_name, binary_img_name, smooth_img_name = preprocessImage(path)
         img = image.load_img(path, target_size=(180, 180))
         os.remove(path)
         x = image.img_to_array(img)
@@ -143,7 +157,13 @@ def imageClassifier(request):
             'input_data': data,
             'predictions': predictions,
             'output_img': output_img,
-
+            'preprocess_imgs': [
+                ['Denoised Image', denoised_img_name],
+                ['BGR Image', bgr_img_name],
+                ['Gray Image', gray_img_name],
+                ['Binary Image', binary_img_name],
+                ['Smooth Image', smooth_img_name]
+            ],
             'chart': 'chart/' + graph_name,
             'layers': layer_name_list,
         }
