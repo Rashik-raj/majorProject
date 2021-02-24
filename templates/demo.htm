@@ -47,19 +47,51 @@
     <div class="col s6 center black-text">
       <h3>Unprocessed Images <a href="{% url 'demo-in-action' %}"><button id='demo'
         class="btn waves-effect waves-light green lighten-2">Process</button></a></h3>
-      {% for image in unprocessed_images %}
-        <div class="col s6 center">
-          <img class="responsive-img zoom" src="{% get_media_prefix %}image_folder/{{ image }}" />
-        </div>
-      {% endfor %}
+      <table>
+        <tr>
+            <th>Image</th>
+            <th>Action</th>
+        </tr>
+        {% for image in unprocessed_images %}
+            <tr>
+                <td>
+                  <a href="{% get_media_prefix %}image_folder/{{ image }}" target="_blank">
+                    <img class="responsive-img zoom" src="{% get_media_prefix %}image_folder/{{ image }}" />
+                  </a>
+                </td>
+                <td>
+                    {% with folder_name="image_folder" %}
+                      <a href="{% url 'image_download' folder_name image %}" style="text-decoration: none; color: black;"><i class="fas fa-download zoom"></i></a> | 
+                      <a href="{% url 'image_delete' folder_name image %}" style="text-decoration: none; color: black;"><i class="fas fa-trash zoom"></i></a>
+                    {% endwith %}
+                </td>
+            </tr>
+        {% endfor %}
+      </table>
     </div>
     <div class="col s6 center black-text">
       <h3>Processed Images</h3>
-      {% for image in processed_images %}
-        <div class="col s2 center">
-          <img class="responsive-img zoom" src="{% get_media_prefix %}image_dataset/{{ image }}" />
-        </div>
-      {% endfor %}
+      <table>
+        <tr>
+            <th>Image</th>
+            <th>Action</th>
+        </tr>
+        {% for image in processed_images %}
+            <tr>
+                <td>
+                  <a href="{% get_media_prefix %}image_dataset/{{ image }}" target="_blank">
+                    <img class="responsive-img zoom" src="{% get_media_prefix %}image_dataset/{{ image }}" />
+                  </a>
+                </td>
+                <td>
+                    {% with folder_name="image_dataset" %}
+                      <a href="{% url 'image_download' folder_name image %}" style="text-decoration: none; color: black;"><i class="fas fa-download zoom"></i></a> | 
+                      <a href="{% url 'image_delete' folder_name image %}" style="text-decoration: none; color: black;"><i class="fas fa-trash zoom"></i></a>
+                    {% endwith %}
+                </td>
+            </tr>
+        {% endfor %}
+      </table>
     </div>
   </div>
 </div>
@@ -67,6 +99,7 @@
 
 {% block script %}
 <script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static 'js/kit.fontawesome.js' %}"></script>
 <script>
   const wrapper = document.querySelector(".wrapper");
   const fileName = document.querySelector(".file-name");

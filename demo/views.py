@@ -1,9 +1,10 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, HttpResponse, HttpResponseRedirect
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from .image_processing import image_preprocessing
 import os
 import shortuuid
+import mimetypes
 
 def get_images(folder_name):
     working_directory = os.getcwd()
@@ -53,4 +54,21 @@ def upload_demo_image(request):
                 messages.success(request, 'Image Uploaded.')
         else:
             messages.error(request, 'Please select an image to upload.')
+    return redirect('/demo')
+
+def image_download(request, folder_name, file_name):
+    file_path = os.path.join(os.getcwd(), "online_data_collection", folder_name, file_name)
+    if os.path.exists(file_path):
+        sample_image = open(file_path, 'rb')
+        mime_type = mimetypes.guess_type(file_path)[0]
+        response = HttpResponse(sample_image, content_type=mime_type)
+        response['Content-Disposition'] = "attachment; filename=%s" % file_name
+        return response
+    else:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+def image_delete(request, folder_name, file_name):
+    file_path = os.path.join(os.getcwd(), "online_data_collection", folder_name, file_name)
+    if os.path.exists(file_path):
+        os.remove(file_path)
     return redirect('/demo')
