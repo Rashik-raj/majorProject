@@ -2,7 +2,9 @@
 {% load static %}
 
 {% block style %}
+<link rel="stylesheet" href="{% static 'css/design.css' %}" />
 <link rel="stylesheet" href="{% static 'css/layout.css' %}" />
+
 {% endblock style %}
 
 {% block nav_extend %}
@@ -29,25 +31,72 @@
     </ul>
     {% endif %}
   </div>
-  <h3 class="center-align upload-image"><b>Demo</b></h3>
+  <h3 class="center-align upload-image"><b>Upload Image</b></h3>
   <div class="row">
-    <div class="col s8 offset-s2 center-align">
-      <a href="{% url 'demo-in-action' %}"><button id='demo'
-          class="btn waves-effect waves-light green lighten-2">Demo</button></a>
+    <div class="col s4 offset-s4 center-align">
+      <form action="{% url 'upload-demo-image' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" id="default-btn" name="data_image" hidden>
+        <button onclick="event.preventDefault();defaultBtnActive()" id="custom-btn">Choose a file</button>
+        <input type="submit" id="custom-btn" />
+    </form>
     </div>
   </div>
-  {% if images %}
+  <hr>
   <div class="row">
-    {% for image in images %}
-    <div class="col s2 center">
-      <img class="responsive-img" src="{% get_media_prefix %}{{ image }}" />
+    <div class="col s6 center black-text">
+      <h3>Unprocessed Images <a href="{% url 'demo-in-action' %}"><button id='demo'
+        class="btn waves-effect waves-light green lighten-2">Process</button></a></h3>
+      {% for image in unprocessed_images %}
+        <div class="col s6 center">
+          <img class="responsive-img zoom" src="{% get_media_prefix %}image_folder/{{ image }}" />
+        </div>
+      {% endfor %}
     </div>
-    {% endfor %}
+    <div class="col s6 center black-text">
+      <h3>Processed Images</h3>
+      {% for image in processed_images %}
+        <div class="col s2 center">
+          <img class="responsive-img zoom" src="{% get_media_prefix %}image_dataset/{{ image }}" />
+        </div>
+      {% endfor %}
+    </div>
   </div>
-  {% endif %}
 </div>
 {% endblock content %}
 
 {% block script %}
 <script src="{% static 'js/custom.js' %}"></script>
+<script>
+  const wrapper = document.querySelector(".wrapper");
+  const fileName = document.querySelector(".file-name");
+  const cancelBtn = document.querySelector("#cancel-btn");
+  const defaultBtn = document.querySelector("#default-btn");
+  const customBtn = document.querySelector("#custom-btn");
+  const img = document.querySelector("img");
+  let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+  function defaultBtnActive() {
+      defaultBtn.click();
+  }
+  defaultBtn.addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+          const reader = new FileReader();
+          reader.onload = function () {
+              const result = reader.result;
+              img.src = result;
+              wrapper.classList.add("active");
+          }
+          cancelBtn.addEventListener("click", function () {
+              img.src = "";
+              wrapper.classList.remove("active");
+          });
+          reader.readAsDataURL(file);
+      }
+      if (this.value) {
+          let valueStore = this.value.match(regExp);
+          fileName.textContent = valueStore;
+      }
+  });
+</script>
 {% endblock script %}
