@@ -43,14 +43,11 @@ def preprocessImage(img_path):
     binary_img_name = imgName()
     cv2.imwrite("online_data_collection/image_processing/" + binary_img_name, binary_sauvola)
     # Smoothing image
-    smooth_image = cv2.medianBlur(binary_sauvola, 3)
+    # smooth_image = cv2.medianBlur(binary_sauvola, 3)
+    smooth_image = cv2.bilateralFilter(binary_sauvola, 9, 75, 75)
     smooth_img_name = imgName()
     cv2.imwrite("online_data_collection/image_processing/" + smooth_img_name, smooth_image)
-
-    resized_image = cv2.resize(smooth_image, (250, 250))
-    resized_img_name = imgName()
-    cv2.imwrite(resized_img_name, resized_image)
-    return resized_img_name, denoised_img_name, bgr_img_name, gray_img_name, binary_img_name, smooth_img_name
+    return denoised_img_name, bgr_img_name, gray_img_name, binary_img_name, smooth_img_name
 
 # Create your views here.
 
@@ -70,9 +67,9 @@ def imageClassifier(request):
 
         # predicting images
         path = os.getcwd() + data.image.url
-        path, denoised_img_name, bgr_img_name, gray_img_name, binary_img_name, smooth_img_name = preprocessImage(path)
+        denoised_img_name, bgr_img_name, gray_img_name, binary_img_name, smooth_img_name = preprocessImage(path)
+        path = os.path.join(os.getcwd(),'online_data_collection', 'image_processing', smooth_img_name)
         img = image.load_img(path, target_size=(180, 180))
-        os.remove(path)
         x = image.img_to_array(img)
         x = np.expand_dims(x, axis=0)
 
