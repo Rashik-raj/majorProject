@@ -56,7 +56,8 @@ def image_preprocessing():
                         binary_sauvola = img_as_ubyte(binary_sauvola)
 
                         # Smoothing image
-                        smooth_image = cv2.medianBlur(binary_sauvola, 3)
+                        # smooth_image = cv2.medianBlur(binary_sauvola, 3)
+                        smooth_image = cv2.bilateralFilter(binary_sauvola, 9, 75, 75)
 
                         # Inverting image so that characters are white and background is black
                         inverted_image = cv2.bitwise_not(smooth_image)
