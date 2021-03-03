@@ -116,7 +116,7 @@ def imageClassifier(request):
         # Rescale by 1/255
         x /= 255
         successive_feature_maps = visualization_model.predict(x)
-        layer_names = [layer.name for layer in model.layers[1:]]
+        layer_names = [layer.name for layer in model.layers[:]]
 
         layer_name_list = []
         # Now let's display our representations
@@ -154,6 +154,7 @@ def imageClassifier(request):
             'input_data': data,
             'predictions': predictions,
             'output_img': output_img,
+            'predicted': np.argmax(classes),
             'preprocess_imgs': [
                 ['Denoised Image', denoised_img_name],
                 ['BGR Image', bgr_img_name],
