@@ -1,1 +1,1 @@
-web: gunicorn recognizeMe.wsgi
+web: gunicorn recognizeMe.wsgi --log-file
