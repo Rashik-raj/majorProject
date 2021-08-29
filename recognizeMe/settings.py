@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +26,7 @@ SECRET_KEY = '*i#hfo4l0vm-3+5d2lc$wysqu0c*zdg11p+rd#$p09ym+7w3kv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', 'rashik-major-project.herokuapp.com']
 
 
 # Application definition
@@ -128,3 +129,6 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'online_data_collection')
 MEDIA_URL = '/online_data_collection/'
+
+
+django_heroku.settings(locals())
