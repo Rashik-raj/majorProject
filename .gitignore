@@ -146,4 +146,3 @@ online_data_collection/layer_image/
 online_data_collection/*.jpg
 online_data_collection/*.jpeg
 online_data_collection/*.png
-migrations/
