@@ -13,7 +13,7 @@ from recognizeMe.settings import BASE_DIR
 from skimage import img_as_ubyte
 from skimage.filters import threshold_sauvola
 from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.image import img_to_array, load_img
+from tensorflow.keras.preprocessing import image
 
 from home.form import ImageForm
 from home.models import Image
@@ -22,7 +22,7 @@ plt.style.use('seaborn')
 
 
 def imgName():
-    return str(shortuuid.uuid()) + '.jpg'
+    return f'{str(shortuuid.uuid())}.jpg'
 
 
 def preprocessImage(img_path):
@@ -97,7 +97,7 @@ def imageClassifier(request):
         working_directory = os.getcwd()
         data = form.save()
         # data prediction
-        model = load_model(working_directory + '/home/cnn_model.h5')
+        model = load_model(f'{working_directory}/home/cnn_model.h5')
 
         # predicting images
         path = os.getcwd() + data.image.url
@@ -115,9 +115,9 @@ def imageClassifier(request):
             classification=np.argmax(classes))
         output_img = '/classification_output/' + \
             str(np.argmax(classes)) + ".jpg"
-        predictions = []
-        for count, val in enumerate(classes[0]):
-            predictions.append([count, np.round(val, 5) * 100])
+        predictions = [[count, np.round(val, 5) * 100]
+                       for count, val in enumerate(classes[0])]
+
         x_axis = [x[0] for x in predictions]
         y_axis = [x[1] for x in predictions]
         upload_img_path = data.image.url
@@ -146,7 +146,7 @@ def imageClassifier(request):
         visualization_model = tf.keras.models.Model(
             inputs=model.input, outputs=successive_outputs)
 
-        x = img_to_array(img)
+        x = image.img_to_array(img)
         x = x.reshape((1,) + x.shape)
 
         # Rescale by 1/255
@@ -182,10 +182,10 @@ def imageClassifier(request):
                 plt.title(layer_name)
                 plt.grid(False)
                 plt.imshow(display_grid, aspect='auto', cmap='viridis')
-                plt.savefig(layer_name + ".jpg")
+                plt.savefig(f"{layer_name}.jpg")
                 plt.close(fig='all')
                 layer_name_list.append(
-                    [layer_name, '/layer_image/' + layer_name + ".jpg"])
+                    [layer_name, f'/layer_image/{layer_name}.jpg'])
 
         context = {
             'input_data': data,
@@ -199,8 +199,8 @@ def imageClassifier(request):
                 ['Binary Image', binary_img_name],
                 ['Smooth Image', smooth_img_name]
             ],
-            'chart': 'chart/' + graph_name,
-            'layers': layer_name_list,
+            'chart': f'chart/{graph_name}',
+            'layers': layer_name_list
         }
         os.chdir(working_directory)
         return render(request, 'result.htm', context=context)
